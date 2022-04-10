@@ -5,8 +5,8 @@ import { extname } from "path";
 import { prisma } from "~/db.server";
 
 export const AdminLinkFormAction = async (args: DataFunctionArgs) => {
-  const distOne = Math.random().toString(36).substring(2, 3); // TODO base 2
-  const distTwo = Math.random().toString(36).substring(2, 3); // TODO base 2
+  const distOne = Math.random().toString(36).substring(2, 4);
+  const distTwo = Math.random().toString(36).substring(2, 4);
   const path = `${distOne}/${distTwo}`;
 
   const uploadHandler = unstable_createFileUploadHandler({

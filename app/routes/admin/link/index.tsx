@@ -8,5 +8,5 @@ export const action: ActionFunction = async (args) => {
 };
 
 export default function NewLinkPage() {
-  return LinkAdminForm;
+  return <LinkAdminForm/>;
 }

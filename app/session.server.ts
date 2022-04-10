@@ -1,8 +1,8 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
 
-import type { User } from "~/models/user.server";
-import { getUserById } from "~/models/user.server";
+import type { user } from "@prisma/client";
+import { getUserById } from "~/model/user.server";
 
 invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
 
@@ -27,11 +27,10 @@ export async function getSession(request: Request) {
 
 export async function getUserId(request: Request): Promise<string | undefined> {
   const session = await getSession(request);
-  const userId = session.get(USER_SESSION_KEY);
-  return userId;
+  return session.get(USER_SESSION_KEY);
 }
 
-export async function getUser(request: Request): Promise<null | User> {
+export async function getUser(request: Request): Promise<null | user> {
   const userId = await getUserId(request);
   if (userId === undefined) return null;
 
@@ -48,7 +47,7 @@ export async function requireUserId(
   const userId = await getUserId(request);
   if (!userId) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    throw redirect(`/login?${searchParams}`);
+    throw redirect(`/admin/login?${searchParams}`);
   }
   return userId;
 }

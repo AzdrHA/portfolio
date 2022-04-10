@@ -5,7 +5,7 @@
 
 */
 -- CreateTable
-CREATE TABLE "Stack" (
+CREATE TABLE "stack" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "link" TEXT NOT NULL

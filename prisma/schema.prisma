@@ -35,7 +35,7 @@ model link {
 	link String
 }
 
-model Stack {
+model stack {
 	id String @id @default(cuid())
 
 	name String

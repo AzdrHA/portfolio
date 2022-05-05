@@ -5,12 +5,20 @@ import { useLoaderData } from "@remix-run/react";
 import { IndexMetaData } from "~/metadata/admin/IndexMetaData";
 import { getAllLink } from "~/model/link.server";
 import { getAllProgrammingLanguage } from "~/model/programming_language.server";
+import { ButtonLink } from "~/component/style/button/ButtonLink";
+import { getAllStack } from "~/model/stack.server";
+import { getAllExperience } from "~/model/experience.server";
+import { ExperienceComponent } from "~/component/ExperienceComponent";
+import type { Experience } from "~/type/Experience";
+import type { Link } from "~/type/Link";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await requireUserId(request);
+  await requireUserId(request);
   const links = await getAllLink();
   const languages = await getAllProgrammingLanguage();
-  return json({ links, languages });
+  const stacks = await getAllStack();
+  const experiences = await getAllExperience();
+  return json({ links, languages, stacks, experiences });
 };
 
 export const meta: MetaFunction = () => {
@@ -26,14 +34,8 @@ export default function AdminIndex() {
         <h1 className={'mb-2'}>Link</h1>
         <div className={"flex"}>
           {
-            data.links.map((link: any, i: number) => {
-              return (
-                <a key={i}
-                   className={"flex justify-center p-1 grayscale transition hover:grayscale-0 focus:grayscale-0"}
-                   title={link.name} target="_blank" href={link.link} rel="noreferrer">
-                  <img src={`/media/${link.file.path}`} alt={`${link.name} icon`} />
-                </a>
-              );
+            data.links.map((link: Link, i: number) => {
+              return <ButtonLink key={i} name={link.name} link={link.link} path={link.file.path}/>
             })
           }
         </div>
@@ -42,14 +44,28 @@ export default function AdminIndex() {
         <h1 className={'mb-2'}>Programming Language</h1>
         <div className={"flex"}>
           {
-            data.links.map((link: any, i: number) => {
-              return (
-                <a key={i}
-                   className={"flex justify-center p-1 grayscale transition hover:grayscale-0 focus:grayscale-0"}
-                   title={link.name} target="_blank" href={link.link} rel="noreferrer">
-                  <img src={`/media/${link.file.path}`} alt={`${link.name} icon`} />
-                </a>
-              );
+            data.languages.map((link: Link, i: number) => {
+              return <ButtonLink key={i} name={link.name} link={link.link} path={link.file.path}/>
+            })
+          }
+        </div>
+      </div>
+      <div className={"m-5 bg-gray-50 p-5 shadow"}>
+        <h1 className={'mb-2'}>Stack</h1>
+        <div className={"flex"}>
+          {
+            data.stacks.map((link: Link, i: number) => {
+              return <ButtonLink key={i} name={link.name} link={link.link} path={link.file.path}/>
+            })
+          }
+        </div>
+      </div>
+      <div className={"m-5 bg-gray-50 p-5 shadow"}>
+        <h1 className={'mb-2'}>Experience</h1>
+        <div className={"flex"}>
+          {
+            data.experiences.map((experience: Experience, i: number) => {
+              return <ExperienceComponent {...experience} key={i}/>
             })
           }
         </div>

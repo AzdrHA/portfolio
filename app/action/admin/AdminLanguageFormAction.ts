@@ -1,9 +1,9 @@
-import { json, redirect } from "@remix-run/node";
+import { json, redirect} from "@remix-run/node";
 import type { DataFunctionArgs } from "@remix-run/server-runtime/routeModules";
 import { prisma } from "~/db.server";
 import { FileUpload } from "~/utils/fileUpload";
 
-export const AdminLinkFormAction = async (args: DataFunctionArgs) => {
+export const AdminLanguageFormAction = async (args: DataFunctionArgs) => {
   const fileUpload = new FileUpload();
   const formData = await fileUpload.getFormData(args.request);
 
@@ -25,7 +25,7 @@ export const AdminLinkFormAction = async (args: DataFunctionArgs) => {
     );
   }
 
-  await prisma.link.create({
+  await prisma.programming_language.create({
     data: {
       name,
       link,

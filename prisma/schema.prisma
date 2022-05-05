@@ -1,82 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "sqlite"
   url = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model user {
-	id String @id @default(cuid())
-	email String @unique
-	password String
-
-	createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model programming_language {
-  id String @id @default(cuid())
-  name String @unique
-  link String
-
+  id        String   @id @default(cuid())
+  name      String   @unique
+  link      String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-
-  file file @relation(fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fileId String @unique
+  fileId    String   @unique
+  file      file     @relation(fields: [fileId], references: [id], onDelete: Cascade)
 }
 
 model experience {
-	id String @id @default(cuid())
-
-	name String
-	where String
-	date String
-	description String
-
-	createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  where       String
+  whereLink   String?
+  date        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 }
 
 model link {
-	id String @id @default(cuid())
-
-	name String
-	link String
-
-	createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  name      String
+  link      String
+  createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-
-	file file @relation(fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fileId String @unique
+  fileId    String   @unique
+  file      file     @relation(fields: [fileId], references: [id], onDelete: Cascade)
 }
 
 model stack {
-	id String @id @default(cuid())
-
-	name String
-	link String
-
-	createdAt DateTime @default(now())
+  id        String   @id @default(cuid())
+  name      String
+  link      String
+  createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-
-  file file @relation(fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fileId String @unique
+  fileId    String   @unique
+  file      file     @relation(fields: [fileId], references: [id], onDelete: Cascade)
 }
 
 model file {
-	id String @id @default(cuid())
-	name String
-	path String
-	size Int
-	type String
-
-	createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
-  link link?
-  stack stack?
+  id                   String                @id @default(cuid())
+  name                 String
+  path                 String
+  size                 Int
+  type                 String
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @default(now()) @updatedAt
+  link                 link?
   programming_language programming_language?
+  stack                stack?
 }
